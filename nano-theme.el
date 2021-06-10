@@ -53,7 +53,7 @@
   (set-face-attribute 'default nil
                       :foreground (face-foreground 'default)
                       :background (face-background 'default)
-                      :weight     'light
+                      :weight     'regular
                       :family     (face-attribute 'nano-face-default :family)
                       :height     (face-attribute 'nano-face-default :height))
 
