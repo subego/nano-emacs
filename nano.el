@@ -21,6 +21,7 @@
 ;; Path to nano emacs modules (mandatory)
 (add-to-list 'load-path "/Users/rougier/Documents/GitHub/nano-emacs")
 (add-to-list 'load-path ".")
+(add-to-list 'load-path "~/nano-emacs")
 
 ;; Default layout (optional)
 (require 'nano-layout)
@@ -51,6 +52,8 @@
     (setq user-init-file this-file)
     (setq custom-file custom-path)
     (load custom-file)))
+
+(setq nano-font-family-monospaced "Sarasa Mono SC")
 
 ;; Theme
 (require 'nano-faces)
@@ -91,5 +94,8 @@
 ;; Help (optional)
 (unless (member "-no-help" command-line-args)
   (require 'nano-help))
+
+(require 'hale-nano)
+(require 'nano-counsel)
 
 (provide 'nano)
