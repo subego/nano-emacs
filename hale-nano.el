@@ -156,6 +156,14 @@
 	;; org-bullets-bullet-list '("› ")
 	org-fontify-quote-and-verse-blocks t))
 
+(use-package beacon
+  :straight (beacon-mode :type git
+                         :host github
+                         :repo "Malabarba/beacon")
+  :custom
+  (beacon-blink-duration 0.4)
+  (beacon-color "#836191"))
+
 (scroll-bar-mode -1)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
