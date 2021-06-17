@@ -164,6 +164,10 @@
   (beacon-blink-duration 0.4)
   (beacon-color "#836191"))
 
+(use-package svg-lib
+  :straight (svg-lib :host github
+                     :repo "rougier/svg-lib"))
+
 (scroll-bar-mode -1)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
@@ -171,6 +175,8 @@
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
+(add-to-list 'load-path "~/nano-emacs/custom")
+(require 'hale-header-line)
 
 (provide 'hale-nano)
 ;;; hale-nano.el ends here

@@ -22,6 +22,7 @@
 (add-to-list 'load-path "/Users/rougier/Documents/GitHub/nano-emacs")
 (add-to-list 'load-path ".")
 (add-to-list 'load-path "~/nano-emacs")
+(add-to-list 'load-path "~/nano-emacs/custom")
 
 ;; Default layout (optional)
 (require 'nano-layout)
@@ -69,7 +70,7 @@
 (require 'nano-session)
 
 ;; Nano header & mode lines (optional)
-(require 'nano-modeline)
+;; (require 'nano-modeline)
 
 ;; Nano key bindings modification (optional)
 (require 'nano-bindings)

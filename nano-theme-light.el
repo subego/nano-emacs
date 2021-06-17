@@ -21,7 +21,7 @@
   ;; Colors from Material design at https://material.io/
   (setq frame-background-mode    'light)
   (setq nano-color-foreground "#37474F") ;; Blue Grey / L800
-  (setq nano-color-background "#FFFFFF") ;; White
+  (setq nano-color-background "#fafafa") ;; White
   (setq nano-color-highlight  "#FAFAFA") ;; Very Light Grey
   (setq nano-color-critical   "#FF6F00") ;; Amber / L900
   (setq nano-color-salient    "#673AB7") ;; Deep Purple / L500
