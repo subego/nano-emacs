@@ -162,13 +162,16 @@
                          :repo "Malabarba/beacon")
   :custom
   (beacon-blink-duration 0.4)
-  (beacon-color "#836191"))
+  (beacon-color "#B0BEC5")
+  :init
+  (add-hook 'emacs-startup-hook #'beacon-mode))
 
 (use-package svg-lib
   :straight (svg-lib :host github
                      :repo "rougier/svg-lib"))
 
 (scroll-bar-mode -1)
+(put 'narrow-to-region 'disabled nil)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
                            '((vertical-scroll-bars . nil)

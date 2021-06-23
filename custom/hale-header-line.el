@@ -27,8 +27,8 @@
   "Face for evil emacs state tag face")
 
 (defface evil-motion-tag-face
-  '((t :foreground "#white"
-       :background "#blue"
+  '((t :foreground "#BFD7ED"
+       :background "#003B73"
        :family     nano-font-family-monospaced
        :weight     semi-bold))
   "Face for evil motion state tag face")
@@ -124,8 +124,7 @@
                 (if (buffer-narrowed-p)
                     (concat ", NARR" ))
                 (if branch (concat ", "
-                                   (propertize branch 'face 'italic)
-                                   ))
+                                   (propertize branch 'face 'italic)))
                 ")" )
         position)))
 
