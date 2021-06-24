@@ -14,7 +14,6 @@
 (defun month-week-headline() (format "** %s" (format-time-string "%b W%W")))
 (defun day-headline() (format "*** %s" (format-time-string "%Y-%m-%d %a W%W")))
 
-
 (defun month-headline-p()
   (save-excursion
     (widen)
@@ -32,7 +31,6 @@
     (widen)
     (goto-char (point-max))
     (search-backward (day-headline) nil t)))
-
 
 (defun hale-insert-file-header()
   (interactive)
@@ -156,7 +154,7 @@
                            :family "Sarasa Mono Slab SC" :height 160)
   (face-remap-add-relative 'org-level-3
                            :underline nano-color-subtle
-                           :family "Sarasa Mono Slab SC" :height 150)
+                           :family "Sarasa Mono Slab SC" :height 140)
   (face-remap-add-relative 'org-level-4
                            :family "Sarasa Mono Slab SC" :height 130
                            :weight 'semi-light)
@@ -177,8 +175,9 @@
   (setq fill-column 72)
   (setq-default line-spacing 1)
   (setq-local truncate-lines nil)
+  (org-overview)
   ;; ;; Indentation
-  ;; ;; (setq org-startup-folded nil)  
+  ;; (setq org-startup-folded t)  
   ;; ;; (org-indent-mode)
   ;; ;; (setq org-level-color-stars-only nil)
   ;; ;; (setq org-hide-leading-stars nil)
@@ -193,6 +192,10 @@
   ;; (org-num-mode)
   ;; (setq org-num-format-function 'writer-mode--num-format)
   )
+
+(add-to-list 'auto-mode-alist
+             '("\\/Users\\/hale\\/Dropbox\\/org-journal\\/.*\\.org"
+               . hale-journal-mode))
 
 (provide 'hale-journal)
 ;;; my-diary.el ends here
