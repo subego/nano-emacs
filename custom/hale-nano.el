@@ -90,7 +90,7 @@
   (setq completion-ignore-case t)
   (setq company-minimum-prefix-length 1)
   (setq company-backends
-	'((company-capf))))
+	    '((company-capf))))
 
 (use-package smartparens
   :straight smartparens)
@@ -128,33 +128,32 @@
   :straight (:type git
 		   :repo "https://code.orgmode.org/bzg/org-mode.git")
   :config
-  (add-hook 'org-mode-hook (lambda () (org-fill-paragraph t)))
-  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines nil)))
-  (add-hook 'org-mode-hook (lambda () (variable-pitch-mode t)))
-  (add-hook 'org-mode-hook (lambda () (org-overview)))
-  (add-to-list 'org-emphasis-alist
-               '("*" (:family "Operator Mono" :weight Bold))))
+  ;; (add-hook 'org-mode-hook (lambda () (org-fill-paragraph t)))
+  ;; (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines nil)))
+  ;; (add-hook 'org-mode-hook (lambda () (variable-pitch-mode t)))
+  ;; (add-hook 'org-mode-hook (lambda () (org-overview)))
+  ;; (add-to-list 'org-emphasis-alist
+  ;;              '("*" (:family "Operator Mono" :weight Bold)))
+  )
 
-
-
-(use-package org-bullets
-  :straight (org-buiilets :type git
-			  :host github
-			  :depth 1
-			  :repo "sabof/org-bullets")
-  ;; :hook (org-mode . org-bullets-mode)
-  :init
-  (add-hook 'org-mode-hook 'org-bullets-mode)
-  (setq org-bullets-bullet-list '( "◉" "○" "●" "⚪" "⚫")
-	org-startup-indented t
-	org-ellipsis "  "
-	org-agenda-block-separator ""
-	org-fontify-whole-heading-line t
-	org-fontify-done-headline t
-	;; org-pretty-entities t
-	;; org-hide-emphasis-markers t
-	;; org-bullets-bullet-list '("› ")
-	org-fontify-quote-and-verse-blocks t))
+;; (use-package org-bullets
+;;   :straight (org-buiilets :type git
+;; 			  :host github
+;; 			  :depth 1
+;; 			  :repo "sabof/org-bullets")
+;;   ;; :hook (org-mode . org-bullets-mode)
+;;   :init
+;;   (add-hook 'org-mode-hook 'org-bullets-mode)
+;;   (setq org-bullets-bullet-list '( "◉" "○" "●" "⚪" "⚫")
+;; 	org-startup-indented t
+;; 	org-ellipsis "  "
+;; 	org-agenda-block-separator ""
+;; 	org-fontify-whole-heading-line t
+;; 	org-fontify-done-headline t
+;; 	;; org-pretty-entities t
+;; 	;; org-hide-emphasis-markers t
+;; 	;; org-bullets-bullet-list '("› ")
+;; 	org-fontify-quote-and-verse-blocks t))
 
 (use-package beacon
   :straight (beacon-mode :type git
@@ -180,6 +179,6 @@
 
 (add-to-list 'load-path "~/nano-emacs/custom")
 (require 'hale-header-line)
-
+(require 'hale-journal)
 (provide 'hale-nano)
 ;;; hale-nano.el ends here
