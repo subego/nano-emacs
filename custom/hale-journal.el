@@ -143,6 +143,16 @@
 	;; org-bullets-bullet-list '("› ")
 	org-fontify-quote-and-verse-blocks t))
 
+(defun journal-mode--num-format (numbering)
+  "Alternative numbering format for org-num."
+  (if (= (length numbering) 4)
+      (propertize (concat
+                   (mapconcat #'number-to-string
+                              (cdddr numbering) " " ) ". ")
+                  'face `(:family "Roboto Condensed"
+                          :height 120
+                          :foreground ,nano-color-faded))))
+
 (define-derived-mode hale-journal-mode org-mode "work journal notes"
   "Record daily work issues."
   ;; faces
@@ -185,13 +195,12 @@
   ;;             #'writer-mode--compute-prefixes)
 
   ;; ;; Numbering
-  ;; (setq org-num-skip-unnumbered t)
-  ;; (setq org-num-skip-footnotes t)
-  ;; (setq org-num-max-level 2)
-  ;; (setq org-num-face nil)
-  ;; (org-num-mode)
-  ;; (setq org-num-format-function 'writer-mode--num-format)
-  )
+  (setq org-num-skip-unnumbered t)
+  (setq org-num-skip-footnotes t)
+  (setq org-num-max-level 4)
+  (setq org-num-face nil)
+  (org-num-mode)
+  (setq org-num-format-function 'journal-mode--num-format))
 
 (add-to-list 'auto-mode-alist
              '("\\/Users\\/hale\\/Dropbox\\/org-journal\\/.*\\.org"
