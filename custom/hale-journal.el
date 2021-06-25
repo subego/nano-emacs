@@ -158,13 +158,16 @@
   ;; faces
   (face-remap-add-relative 'org-level-1
                            ;; :underline nano-color-subtle
-                           :family "Sarasa Mono Slab SC" :height 180)
+                           :foreground nano-color-faded
+                           :family "Lora" :height 180)
   (face-remap-add-relative 'org-level-2
                            ;; :underline nano-color-subtle
-                           :family "Sarasa Mono Slab SC" :height 160)
+                           :foreground nano-color-faded
+                           :family "Lora" :height 160)
   (face-remap-add-relative 'org-level-3
                            :underline nano-color-subtle
-                           :family "Sarasa Mono Slab SC" :height 140)
+                           :foreground nano-color-faded
+                           :family "Lora" :height 140)
   (face-remap-add-relative 'org-level-4
                            :family "Sarasa Mono Slab SC" :height 130
                            :weight 'semi-light)
@@ -195,12 +198,12 @@
   ;;             #'writer-mode--compute-prefixes)
 
   ;; ;; Numbering
+  (setq org-num-format-function 'journal-mode--num-format)
   (setq org-num-skip-unnumbered t)
   (setq org-num-skip-footnotes t)
   (setq org-num-max-level 4)
   (setq org-num-face nil)
-  (org-num-mode)
-  (setq org-num-format-function 'journal-mode--num-format))
+  (org-num-mode))
 
 (add-to-list 'auto-mode-alist
              '("\\/Users\\/hale\\/Dropbox\\/org-journal\\/.*\\.org"
