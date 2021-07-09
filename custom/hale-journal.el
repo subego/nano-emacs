@@ -124,24 +124,19 @@
   (org-ql-sparse-tree 
     '(and (ancestors (heading (format-time-string "%b W%W"))) (tags "Region2"))))
 
-(use-package org-bullets
-  :straight (org-buiilets :type git
-			  :host github
-			  :depth 1
-			  :repo "sabof/org-bullets")
-  ;; :hook (org-mode . org-bullets-mode)
-  :init
-  (add-hook 'org-mode-hook 'org-bullets-mode)
-  (setq org-bullets-bullet-list '( " " "  " "   " "    " "     ")
-	org-startup-indented t
-	org-ellipsis "  "
-	org-agenda-block-separator ""
-	org-fontify-whole-heading-line t
-	org-fontify-done-headline t
-	;; org-pretty-entities t
-	;; org-hide-emphasis-markers t
-	;; org-bullets-bullet-list '("› ")
-	org-fontify-quote-and-verse-blocks t))
+;; From https://github.com/org-roam/org-roam/wiki/Hitchhiker's-Rough-Guide-to-Org-roam-V2#hiding-properties
+;; ---------------------------------------------------------------------
+(defun hale-org-hide-leading-stars ()
+  "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward
+            "^\\*+ " nil t)
+      (let ((ov_this (make-overlay (match-beginning 0) (match-end 0))))
+        (overlay-put ov_this 'display "")
+        (overlay-put ov_this 'hidden-prop-drawer t))))
+  (put 'org-toggle-properties-hide-state 'state 'hidden))
 
 (defun journal-mode--num-format (numbering)
   "Alternative numbering format for org-num."
@@ -178,6 +173,7 @@
                            :family "Source Han Serif SC" 
                            :height 200
                            :weight 'semi-bold)
+
   ;; hide title / author ... keywords
   ;; (setq-local org-hidden-keywords '(title author date startup))
 
@@ -191,12 +187,12 @@
   (org-overview)
   ;; ;; Indentation
   ;; (setq org-startup-folded t)  
-  ;; ;; (org-indent-mode)
+  (org-indent-mode)
   ;; ;; (setq org-level-color-stars-only nil)
   ;; ;; (setq org-hide-leading-stars nil)
   ;; (advice-add 'org-indent--compute-prefixes :override
   ;;             #'writer-mode--compute-prefixes)
-
+  (hale-org-hide-leading-stars)
   ;; ;; Numbering
   (setq org-num-format-function 'journal-mode--num-format)
   (setq org-num-skip-unnumbered t)

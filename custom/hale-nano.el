@@ -1,7 +1,10 @@
-(setq straight-base-dir (expand-file-name "~/nano-emacs"))
+(setq straight-base-dir
+      (expand-file-name "~/nano-emacs"))
 (defvar bootstrap-version)
 
-(let ((bootstrap-file (format "%s/%s" straight-base-dir "straight/repos/straight.el/bootstrap.el"))
+(let ((bootstrap-file
+       (format "%s/%s" straight-base-dir
+               "straight/repos/straight.el/bootstrap.el"))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
@@ -126,34 +129,34 @@
 
 (use-package org
   :straight (:type git
-		   :repo "https://code.orgmode.org/bzg/org-mode.git")
+		           :repo "https://code.orgmode.org/bzg/org-mode.git")
   :config
   ;; (add-hook 'org-mode-hook (lambda () (org-fill-paragraph t)))
   ;; (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines nil)))
   ;; (add-hook 'org-mode-hook (lambda () (variable-pitch-mode t)))
-  ;; (add-hook 'org-mode-hook (lambda () (org-overview)))
+  (add-hook 'org-mode-hook (lambda () (org-overview)))
   ;; (add-to-list 'org-emphasis-alist
   ;;              '("*" (:family "Operator Mono" :weight Bold)))
-  )
+)
 
-;; (use-package org-bullets
-;;   :straight (org-buiilets :type git
-;; 			  :host github
-;; 			  :depth 1
-;; 			  :repo "sabof/org-bullets")
-;;   ;; :hook (org-mode . org-bullets-mode)
-;;   :init
-;;   (add-hook 'org-mode-hook 'org-bullets-mode)
-;;   (setq org-bullets-bullet-list '( "◉" "○" "●" "⚪" "⚫")
-;; 	org-startup-indented t
-;; 	org-ellipsis "  "
-;; 	org-agenda-block-separator ""
-;; 	org-fontify-whole-heading-line t
-;; 	org-fontify-done-headline t
-;; 	;; org-pretty-entities t
-;; 	;; org-hide-emphasis-markers t
-;; 	;; org-bullets-bullet-list '("› ")
-;; 	org-fontify-quote-and-verse-blocks t))
+(use-package org-bullets
+  :straight (org-buiilets :type git
+			  :host github
+			  :depth 1
+			  :repo "sabof/org-bullets")
+  ;; :hook (org-mode . org-bullets-mode)
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode)
+  (setq org-bullets-bullet-list '( "◉" "○" "⚫" "⚪" )
+    org-startup-indented t
+    org-ellipsis "  "
+    org-agenda-block-separator ""
+    org-fontify-whole-heading-line t
+    org-fontify-done-headline t
+    ;; org-pretty-entities t
+    ;; org-hide-emphasis-markers t
+    ;; org-bullets-bullet-list '("› ")
+    org-fontify-quote-and-verse-blocks t))
 
 (use-package beacon
   :straight (beacon-mode :type git
@@ -161,7 +164,7 @@
                          :repo "Malabarba/beacon")
   :custom
   (beacon-blink-duration 0.4)
-  (beacon-color "#B0BEC5")
+  (beacon-color nano-color-subtle)
   :init
   (add-hook 'emacs-startup-hook #'beacon-mode))
 
@@ -170,6 +173,7 @@
                      :repo "rougier/svg-lib"))
 
 (scroll-bar-mode -1)
+(show-paren-mode 1)
 (put 'narrow-to-region 'disabled nil)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
