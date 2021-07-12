@@ -124,19 +124,17 @@
   (org-ql-sparse-tree 
     '(and (ancestors (heading (format-time-string "%b W%W"))) (tags "Region2"))))
 
-;; From https://github.com/org-roam/org-roam/wiki/Hitchhiker's-Rough-Guide-to-Org-roam-V2#hiding-properties
+;; From https://www.reddit.com/r/emacs/comments/9wukv8/hide_all_stars_in_org_mode/
 ;; ---------------------------------------------------------------------
-(defun hale-org-hide-leading-stars ()
-  "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
+(defun chunyang-org-mode-remove-stars ()
   (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward
-            "^\\*+ " nil t)
-      (let ((ov_this (make-overlay (match-beginning 0) (match-end 0))))
-        (overlay-put ov_this 'display "")
-        (overlay-put ov_this 'hidden-prop-drawer t))))
-  (put 'org-toggle-properties-hide-state 'state 'hidden))
+  (font-lock-add-keywords
+   nil
+   '(("^\\*+ "
+      (0
+       (prog1 nil
+         (put-text-property (match-beginning 0) (match-end 0)
+                            'invisible t)))))))
 
 (defun journal-mode--num-format (numbering)
   "Alternative numbering format for org-num."
@@ -184,15 +182,15 @@
   (setq fill-column 72)
   (setq-default line-spacing 1)
   (setq-local truncate-lines nil)
-  (org-overview)
   ;; ;; Indentation
-  ;; (setq org-startup-folded t)  
+  (setq org-startup-folded t)  
   (org-indent-mode)
+  (chunyang-org-mode-remove-stars)
   ;; ;; (setq org-level-color-stars-only nil)
   ;; ;; (setq org-hide-leading-stars nil)
   ;; (advice-add 'org-indent--compute-prefixes :override
   ;;             #'writer-mode--compute-prefixes)
-  (hale-org-hide-leading-stars)
+  ;; (hale-org-hide-leading-stars)
   ;; ;; Numbering
   (setq org-num-format-function 'journal-mode--num-format)
   (setq org-num-skip-unnumbered t)
