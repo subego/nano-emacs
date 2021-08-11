@@ -93,10 +93,6 @@
 
 (global-set-key (kbd "C-c j") 'hale-journal-new-entry)
 
-;; (org-ql-query
-;;   :from (format-time-string my-diary-filename)
-;;   :where '(and (ancestors (heading "2021-04-15 Thu W15")) (tags "Region1") (tags "问题处理")))
-
 (use-package org-ql
   :straight
   (org-ql :type git

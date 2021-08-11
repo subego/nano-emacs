@@ -44,18 +44,60 @@
   (rime-librime-root "~/.emacs.d/librime/dist")
   (rime-show-candidate nil))
 
-(use-package smex
-  :straight t)
+;; (use-package smex
+;;   :straight t)
 
-(use-package ivy
-  :straight t)
+;; (use-package ivy
+;;   :straight t)
 
-(use-package counsel
+;; (use-package counsel
+;;   :straight t
+;;   :diminish ivy-mode counsel-mode
+;;   :requires (smex)
+;;   :custom (ivy-use-virtual-buffers t)
+;;   :bind (("C-s" . swiper-isearch)))
+
+(use-package vertico
+  :straight (vertico :host github
+                     :repo "minad/vertico")
+  :init (vertico-mode)
+  :custom
+  (vertico-count 5))
+
+;; (use-package selectrum
+;;   :straight selectrum
+;;   :init (selectrum-mode))
+
+(use-package consult
+  :straight (consult :host github
+		     :repo "minad/consult")
+  :bind
+  (("C-s" . consult-line))
+  (("C-x b" . consult-buffer))
+  :config
+  (setq consult-preview-key '(:debounce 0.5 any)))
+
+(use-package embark
+  :straight (embark :host github
+		    :repo "oantolin/embark")
+  :custom
+  (embark-prompter 'embark-completing-read-prompter)
+  :bind
+  (("s-o" . embark-act))
+  (("C-c C-c" . embark-export)))
+
+(use-package embark-consult
   :straight t
-  :diminish ivy-mode counsel-mode
-  :requires (smex)
-  :custom (ivy-use-virtual-buffers t)
-  :bind (("C-s" . swiper-isearch)))
+  :after (embark consult))
+
+(use-package orderless
+  :straight t
+  :custom
+  (completion-styles '(orderless)))
+
+;; ;; (use-package marginalia
+;;   :straight t
+;;   :init (marginalia-mode))
 
 (use-package mini-frame
   :straight (mini-frame :host github
@@ -89,11 +131,12 @@
   :hook ((emacs-lisp-mode . company-mode))
   :config
   (global-company-mode t)
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0.1)
   (setq completion-ignore-case t)
-  (setq company-minimum-prefix-length 1)
+  (setq company-minimum-prefix-length 2)
   (setq company-backends
-	    '((company-capf))))
+	    '((company-capf)
+          (company-slime))))
 
 (use-package smartparens
   :straight smartparens)
@@ -117,15 +160,24 @@
          ("C-c q" . vr/query-replace)))
 
 (use-package evil
-  :straight (evil :type git
-		  :host github
-		  :depth 1
-		  :repo "emacs-evil/evil")
+  :straight (evil :host github
+		          :repo "emacs-evil/evil")
   :config
   (define-key evil-normal-state-map (kbd "Y") 'hale-copy-line)
+  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
   (evil-mode)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'magit-popup-mode 'emacs))
+
+(use-package disable-mouse
+  :straight (disable-mouse :host github
+                           :repo "purcell/disable-mouse")
+  :config
+  (mapc #'disable-mouse-in-keymap
+  (list evil-motion-state-map
+        evil-normal-state-map
+        evil-visual-state-map
+        evil-insert-state-map)))
 
 (use-package org
   :straight (:type git
@@ -158,19 +210,32 @@
     ;; org-bullets-bullet-list '("› ")
     org-fontify-quote-and-verse-blocks t))
 
-(use-package beacon
-  :straight (beacon-mode :type git
-                         :host github
-                         :repo "Malabarba/beacon")
-  :custom
-  (beacon-blink-duration 0.4)
-  (beacon-color nano-color-subtle)
-  :init
-  (add-hook 'emacs-startup-hook #'beacon-mode))
+;; (use-package beacon
+;;   :straight (beacon-mode :type git
+;;                          :host github
+;;                          :repo "Malabarba/beacon")
+;;   :custom
+;;   (beacon-blink-duration 0.4)
+;;   (beacon-color nano-color-subtle)
+;;   :init
+;;   (add-hook 'emacs-startup-hook #'beacon-mode))
 
 (use-package svg-lib
   :straight (svg-lib :host github
                      :repo "rougier/svg-lib"))
+
+(use-package slime
+  :straight slime
+  :config
+  (setq inferior-lisp-program "sbcl"))
+
+(use-package slime-company
+  :straight (slime-company :host github
+                           :repo "anwyn/slime-company")
+  :after (slime company)
+  :config (setq
+           ;; slime-company-completion 'fuzzy
+                slime-company-after-completion 'slime-company-just-one-space))
 
 (scroll-bar-mode -1)
 (show-paren-mode 1)
@@ -184,5 +249,7 @@
 (add-to-list 'load-path "~/nano-emacs/custom")
 (require 'hale-header-line)
 (require 'hale-journal)
+(require 'hale-command)
+
 (provide 'hale-nano)
 ;;; hale-nano.el ends here

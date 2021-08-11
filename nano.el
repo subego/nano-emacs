@@ -97,6 +97,6 @@
   (require 'nano-help))
 
 (require 'hale-nano)
-(require 'nano-counsel)
+;; (require 'nano-counsel)
 
 (provide 'nano)
