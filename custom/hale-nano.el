@@ -20,7 +20,9 @@
 (setq straight-vc-git-default-clone-depth 1)
 (straight-use-package 'use-package)
 
-(setq-default mac-option-modifier 'meta)
+(when (string= system-type "darwin")       
+  (setq dired-use-ls-dired nil)
+  (setq-default mac-option-modifier 'meta))
 
 (defun hale-copy-line ()
   "Copy the whole line at point."
@@ -44,29 +46,12 @@
   (rime-librime-root "~/.emacs.d/librime/dist")
   (rime-show-candidate nil))
 
-;; (use-package smex
-;;   :straight t)
-
-;; (use-package ivy
-;;   :straight t)
-
-;; (use-package counsel
-;;   :straight t
-;;   :diminish ivy-mode counsel-mode
-;;   :requires (smex)
-;;   :custom (ivy-use-virtual-buffers t)
-;;   :bind (("C-s" . swiper-isearch)))
-
 (use-package vertico
   :straight (vertico :host github
                      :repo "minad/vertico")
   :init (vertico-mode)
   :custom
   (vertico-count 5))
-
-;; (use-package selectrum
-;;   :straight selectrum
-;;   :init (selectrum-mode))
 
 (use-package consult
   :straight (consult :host github
@@ -91,9 +76,9 @@
   :after (embark consult))
 
 (use-package orderless
-  :straight t
-  :custom
-  (completion-styles '(orderless)))
+  :straight (orderless :host github
+                       :repo "oantolin/orderless")
+  :custom (completion-styles '(substring orderless)))
 
 ;; ;; (use-package marginalia
 ;;   :straight t
@@ -128,15 +113,18 @@
 
 (use-package company
   :straight company
-  :hook ((emacs-lisp-mode . company-mode))
+  :hook (prog-mode . company-mode)
   :config
-  (global-company-mode t)
   (setq company-idle-delay 0.1)
   (setq completion-ignore-case t)
-  (setq company-minimum-prefix-length 2)
+  (setq company-minimum-prefix-length 1)
   (setq company-backends
-	    '((company-capf)
-          (company-slime))))
+	    '((company-elisp)
+          (company-slime)
+          (company-files)
+          (company-dabbrev)
+          (company-keywords)
+          (company-capf))))
 
 (use-package smartparens
   :straight smartparens)
@@ -183,13 +171,9 @@
   :straight (:type git
 		           :repo "https://code.orgmode.org/bzg/org-mode.git")
   :config
-  ;; (add-hook 'org-mode-hook (lambda () (org-fill-paragraph t)))
-  ;; (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines nil)))
-  ;; (add-hook 'org-mode-hook (lambda () (variable-pitch-mode t)))
   (add-hook 'org-mode-hook (lambda () (org-overview)))
-  ;; (add-to-list 'org-emphasis-alist
-  ;;              '("*" (:family "Operator Mono" :weight Bold)))
-)
+  (setq org-todo-keywords
+        '((sequence "TODO" "WAIT" "|" "DONE" "CANCELED"))))
 
 (use-package org-bullets
   :straight (org-buiilets :type git
@@ -210,19 +194,17 @@
     ;; org-bullets-bullet-list '("› ")
     org-fontify-quote-and-verse-blocks t))
 
-;; (use-package beacon
-;;   :straight (beacon-mode :type git
-;;                          :host github
-;;                          :repo "Malabarba/beacon")
-;;   :custom
-;;   (beacon-blink-duration 0.4)
-;;   (beacon-color nano-color-subtle)
-;;   :init
-;;   (add-hook 'emacs-startup-hook #'beacon-mode))
-
-(use-package svg-lib
-  :straight (svg-lib :host github
-                     :repo "rougier/svg-lib"))
+(use-package org-roam
+  :straight (org-roam :host github
+                      :repo "org-roam/org-roam" )
+  :after org
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/Dropbox/org-roam")
+  (org-roam-file-extensions '("org"))
+  :config
+  (org-roam-setup))
 
 (use-package slime
   :straight slime
@@ -245,6 +227,9 @@
                            '((vertical-scroll-bars . nil)
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+(add-hook 'kill-emacs-query-functions
+          (lambda () (y-or-n-p "Do you really want to exit Emacs? "))
+          'append)
 
 (add-to-list 'load-path "~/nano-emacs/custom")
 (require 'hale-header-line)
