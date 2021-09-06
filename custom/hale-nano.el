@@ -129,6 +129,15 @@
 (use-package smartparens
   :straight smartparens)
 
+(use-package aggressive-indent-mode
+  :straight
+  (aggressive-indent-mode :host github
+                          :repo "Malabarba/aggressive-indent-mode")
+  :hook
+  ((emacs-lisp-mode . aggressive-indent-mode)
+   (common-lisp-mode . aggressive-indent-mode)
+   (lisp-interaction-mode . aggressive-indent-mode)))
+
 (use-package yasnippet
   :straight (yasnippet :type git
                        :host github
