@@ -113,7 +113,9 @@
 
 (use-package company
   :straight company
-  :hook (prog-mode . company-mode)
+  :hook
+  ((prog-mode . company-mode)
+   (slime-repl-mode . company-mode))
   :config
   (setq company-idle-delay 0.1)
   (setq completion-ignore-case t)
@@ -221,12 +223,15 @@
   (setq inferior-lisp-program "sbcl"))
 
 (use-package slime-company
-  :straight (slime-company :host github
-                           :repo "anwyn/slime-company")
-  :after (slime company)
-  :config (setq
-           ;; slime-company-completion 'fuzzy
-                slime-company-after-completion 'slime-company-just-one-space))
+  :straight
+  (slime-company :host github
+                 :repo "anwyn/slime-company")
+  :after
+  (slime company)
+  :config
+  (setq
+   ;; slime-company-completion 'fuzzy
+   slime-company-after-completion 'slime-company-just-one-space))
 
 (scroll-bar-mode -1)
 (show-paren-mode 1)
