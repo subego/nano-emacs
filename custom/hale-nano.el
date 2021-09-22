@@ -46,6 +46,10 @@
   (rime-librime-root "~/.emacs.d/librime/dist")
   (rime-show-candidate nil))
 
+(use-package magit
+  :straight (magit :host github
+                   :repo "magit/magit"))
+
 (use-package vertico
   :straight (vertico :host github
                      :repo "minad/vertico")
@@ -213,9 +217,16 @@
   (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory "~/Dropbox/org-roam")
+  (org-roam-completion-everywhere t)
   (org-roam-file-extensions '("org"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point))
   :config
-  (org-roam-setup))
+  (org-roam-setup)
+  (org-roam-db-autosync-mode))
 
 (use-package slime
   :straight slime
@@ -233,6 +244,7 @@
    ;; slime-company-completion 'fuzzy
    slime-company-after-completion 'slime-company-just-one-space))
 
+(setq frame-resize-pixelwise t)
 (scroll-bar-mode -1)
 (show-paren-mode 1)
 (put 'narrow-to-region 'disabled nil)
