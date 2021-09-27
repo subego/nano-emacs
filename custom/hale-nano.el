@@ -32,6 +32,32 @@
     (kill-new (buffer-substring beg end)))
   (message "The whole line has been copied!"))
 
+;; From https://emacs-china.org/t/topic/6601/4
+;; ==============================================
+(defun org-insert-image ()
+  "Insert a image from clipboard."
+  (interactive)
+  (let* ((path (concat default-directory "img/"))
+	     (image-file (concat
+			          path
+			          (buffer-name)
+			          (format-time-string "_%Y%m%d_%H%M%S.png"))))
+    (if (not (file-exists-p path))
+	    (mkdir path))
+    (do-applescript (concat
+		             "set the_path to \"" image-file "\" \n"
+		             "set png_data to the clipboard as «class PNGf» \n"
+		             "set the_file to open for access (POSIX file the_path as string) with write permission \n"
+		             "write png_data to the_file \n"
+		             "close access the_file"))
+    ;; (shell-command (concat "pngpaste " image-file))
+    (org-insert-link nil
+		             (concat "file:" image-file)
+		             "")
+    (message image-file))
+  ;; (org-display-inline-images)
+  )
+
 (use-package el-patch
   :straight t)
 
@@ -168,6 +194,7 @@
   :config
   (define-key evil-normal-state-map (kbd "Y") 'hale-copy-line)
   (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+  (setq-default evil-kill-on-visual-paste nil)
   (evil-mode)
   (evil-set-initial-state 'dired-mode 'emacs)
   (evil-set-initial-state 'magit-popup-mode 'emacs))
@@ -190,24 +217,45 @@
   (setq org-todo-keywords
         '((sequence "TODO" "WAIT" "|" "DONE" "CANCELED"))))
 
+(use-package ox-latex
+  :after org
+  :config
+  (add-to-list 'org-latex-classes
+               '("report"
+                 "\\documentclass{report-CD}"
+                 ;; "\\documentclass[lang=cn,11pt,a4paper]{elegntpaper}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (setq org-export-with-sub-superscripts nil)
+  (setq org-latex-listings 'listings)
+  (setq org-latex-tables-booktabs t)
+  (setq org-latex-pdf-process
+        '("xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f")))
+
 (use-package org-bullets
   :straight (org-buiilets :type git
-			  :host github
-			  :depth 1
-			  :repo "sabof/org-bullets")
+			              :host github
+			              :depth 1
+			              :repo "sabof/org-bullets")
   ;; :hook (org-mode . org-bullets-mode)
   :init
   (add-hook 'org-mode-hook 'org-bullets-mode)
   (setq org-bullets-bullet-list '( "◉" "○" "⚫" "⚪" )
-    org-startup-indented t
-    org-ellipsis "  "
-    org-agenda-block-separator ""
-    org-fontify-whole-heading-line t
-    org-fontify-done-headline t
-    ;; org-pretty-entities t
-    ;; org-hide-emphasis-markers t
-    ;; org-bullets-bullet-list '("› ")
-    org-fontify-quote-and-verse-blocks t))
+        org-startup-indented t
+        org-ellipsis "  "
+        org-agenda-block-separator ""
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        ;; org-pretty-entities t
+        ;; org-hide-emphasis-markers t
+        ;; org-bullets-bullet-list '("› ")
+        org-fontify-quote-and-verse-blocks t))
 
 (use-package org-roam
   :straight (org-roam :host github
