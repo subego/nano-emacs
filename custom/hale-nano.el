@@ -20,7 +20,7 @@
 (setq straight-vc-git-default-clone-depth 1)
 (straight-use-package 'use-package)
 
-(when (string= system-type "darwin")       
+(when (string= system-type "darwin")
   (setq dired-use-ls-dired nil)
   (setq-default mac-option-modifier 'meta))
 
@@ -152,9 +152,6 @@
           (company-dabbrev)
           (company-keywords)
           (company-capf))))
-
-(use-package smartparens
-  :straight smartparens)
 
 (use-package aggressive-indent-mode
   :straight

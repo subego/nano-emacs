@@ -1,6 +1,10 @@
+;;; -*- lexical-binding: t -*-
+(require 'evil)
+(require 'rime)
+
 (defface evil-normal-tag-face
-  '((t :foreground "#005f00"
-       :background "#AFD700"
+  '((t :foreground "#2D6A4F"
+       :background "#B5E48C"
        :family     nano-font-family-monospaced
        :weight     semi-bold))
   "Face for evil normal state tag face")
@@ -13,8 +17,8 @@
   "Face for evil insert state tag face")
 
 (defface evil-visual-tag-face
-  '((t :foreground "#870000"
-       :background "#FF8700"
+  '((t :foreground "#962224"
+       :background "#F4A261"
        :family     nano-font-family-monospaced
        :weight     semi-bold))
   "Face for evil visual state tag face")
@@ -40,6 +44,13 @@
        :weight     semi-bold))
   "Face for evil operator state tag face")
 
+(defface evil-replace-tag-face
+  '((t :foreground "#F8EDEB"
+       :background "#AA4465"
+       :family     nano-font-family-monospaced
+       :weight     semi-bold))
+  "Face for evil operator state tag face")
+
 ;; -------------------------------------------------------------------
 (defun vc-branch ()
   (if vc-mode
@@ -53,7 +64,7 @@
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-status ()
   "Return buffer status: read-only (RO), modified (**) or read-write (RW)"
-  
+
   (let ((read-only   buffer-read-only)
         (modified    (and buffer-file-name (buffer-modified-p))))
     (cond (modified  "**") (read-only "RO") (t "RW"))))
@@ -78,6 +89,8 @@
                          (propertize " <M> " 'face 'evil-motion-tag-face))
                         ((string= tag "operator")
                          (propertize " <O> " 'face 'evil-operator-tag-face))
+                        ((string= tag "replace")
+                         (propertize " <R> " 'face 'evil-replace-tag-face))
                         (t (propertize "     " 'face 'nano-face-header-default)))
                   (cond ((string= status "RO")
 			             (propertize (if (window-dedicated-p)" -- " " RO ")
@@ -97,7 +110,7 @@
 			                'display `(raise ,space-down))
 		        (propertize primary 'face 'nano-face-header-default)))
          (right (concat secondary " "))
-         (available-width (- (window-total-width) 
+         (available-width (- (window-total-width)
 			                 (length prefix) (length left) (length right)
 			                 (/ (window-right-divider-width) char-width)))
 	     (available-width (max 1 available-width)))

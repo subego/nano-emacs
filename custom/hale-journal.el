@@ -1,4 +1,4 @@
-;;; my-journal.el --- 
+;;; my-journal.el  -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
@@ -102,22 +102,22 @@
 
 (defun hale-today-1()
   (interactive)
-  (org-ql-sparse-tree 
+  (org-ql-sparse-tree
     '(and (ancestors (heading (format-time-string "%Y-%m-%d %a W%W"))) (tags "Region1"))))
 
 (defun hale-today-2()
   (interactive)
-  (org-ql-sparse-tree 
+  (org-ql-sparse-tree
     '(and (ancestors (heading (format-time-string "%Y-%m-%d %a W%W"))) (tags "Region2"))))
 
 (defun hale-week-1()
   (interactive)
-  (org-ql-sparse-tree 
+  (org-ql-sparse-tree
     '(and (ancestors (heading (format-time-string "%b W%W"))) (tags "Region1"))))
 
 (defun hale-week-2()
   (interactive)
-  (org-ql-sparse-tree 
+  (org-ql-sparse-tree
     '(and (ancestors (heading (format-time-string "%b W%W"))) (tags "Region2"))))
 
 ;; From https://www.reddit.com/r/emacs/comments/9wukv8/hide_all_stars_in_org_mode/
@@ -164,7 +164,7 @@
                            :inherit 'nano-face-faded)
   (face-remap-add-relative 'org-document-title
                            :foreground nano-color-foreground
-                           :family "Source Han Serif SC" 
+                           :family "Source Han Serif SC"
                            :height 200
                            :weight 'semi-bold)
 
@@ -173,13 +173,13 @@
 
   ;; Header line
   ;; (setq header-line-format nil)
-  
+
   ;; Layout
   (setq fill-column 72)
   (setq-default line-spacing 1)
   (setq-local truncate-lines nil)
   ;; ;; Indentation
-  (setq org-startup-folded t)  
+  (setq org-startup-folded t)
   (org-indent-mode)
   (chunyang-org-mode-remove-stars)
   ;; ;; (setq org-level-color-stars-only nil)
